@@ -21,7 +21,7 @@ main(int ac, char **av)
 	while (1)
 	{
 		buf = malloc(sizeof(char) * n);
-		write(STDOUT_FILENO, "kyrl$ ", 7);
+		write(STDOUT_FILENO, "kyrl$ ", 5);
 		read = getline(&buf, &n, stdin);
 
 		if (read == -1)
