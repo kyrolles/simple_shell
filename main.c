@@ -8,9 +8,10 @@
  */
 
 int
-main(int ac __attribute__((unused)), char **av __attribute__((unused)))
+main(int ac, char **av)
 {
 
+	(void)ac, (void)av;
 	size_t n = 10;
 	char *buf, *pieces, **ppieces;
 	ssize_t read;
