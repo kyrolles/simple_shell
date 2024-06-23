@@ -8,7 +8,7 @@
  */
 
 int
-main(int ac, char **av)
+main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
 
 	size_t n = 10;
