@@ -1,67 +1,78 @@
 #include "main.h"
+#define PROMPT "kyrl$ "
+#define PROMPT_SIZE 7
 
 /**
+ *
  * main - prints the environment
  * @ac: not used really.
  * @av: also not used really.
  * Return: Always 0.
  */
 
-int
-main(int ac, char **av)
+int main(int ac, char **av)
 {
+    (void)ac;
+    (void)av;
+    size_t n = 0;
+    char *buf = NULL, *pieces = NULL, **ppieces = NULL;
+    ssize_t read;
+    pid_t child_process;
+    int state, i;
 
-	(void)ac, (void)av;
-	size_t n = 10;
-	char *buf, *pieces, **ppieces;
-	ssize_t read;
-	pid_t Child_process;
-	int STATE, i;
+    while (1)
+    {
+        write(STDOUT_FILENO, PROMPT, PROMPT_SIZE);
+        read = getline(&buf, &n, stdin);
 
-	while (1)
-	{
-		buf = malloc(sizeof(char) * n);
-		write(STDOUT_FILENO, "kyrl$ ", 5);
-		read = getline(&buf, &n, stdin);
+        if (read == -1)
+        {
+            perror("Exiting shell");
+            break;
+        }
 
-		if (read == -1)
-		{
-			perror("Exiting shell");
-			exit(1);
-		}
+        if (!ppieces)
+        {
+            perror("malloc failed");
+            free(buf);
+            exit(1);
+        }
 
-		ppieces = malloc(sizeof(char) * 1024);
+        pieces = strtok(buf, " \n");
+        i = 0;
+        while (pieces != NULL)
+        {
+            ppieces[i] = pieces;
+            pieces = strtok(NULL, " \n");
+            i++;
+        }
+        ppieces[i] = NULL;
 
-		pieces = strtok(buf, " \n");
-		i = 0;
-		while (pieces != NULL)
-		{
-			ppieces[i] = pieces;
-			pieces = strtok(NULL, " \n");
-			i++;
-		}
-		Child_process = fork();
-		if (Child_process == -1)
-		{
-			perror("faild to make child process!\n");
-			exit(1);
-		}
-		if (Child_process == 0)
-		{
-			int Texe = execve(ppieces[0], ppieces, NULL);
+        child_process = fork();
+        if (child_process == -1)
+        {
+            perror("Failed to create child process");
+            free(ppieces);
+            free(buf);
+            exit(1);
+        }
+        if (child_process == 0)
+        {
+            if (execve(ppieces[0], ppieces, NULL) == -1)
+            {
+                perror("Failed to execute command");
+                free(ppieces);
+                free(buf);
+                exit(1);
+            }
+        }
+        else
+        {
+            wait(&state);
+        }
 
-			if (Texe == -1)
-			{
-				perror("faild to execute");
-				exit(1);
-			}
-		}
-		else
-			{
-				wait(&STATE);
-			}
-		free(ppieces);
-	}
-	free(buf);
-	return (0);
+        free(ppieces);
+    }
+    free(buf);
+    return 0;
 }
