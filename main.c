@@ -2,16 +2,16 @@
 
 /**
  * main - prints the environment
- * @ac: not used really.
- * @av: also not used really.
+ * @argc: not used really.
+ * @argv: also not used really.
  * Return: Always 0.
  */
 
 int
-main(int ac, char **av)
+main(int argc, char **argv)
 {
 
-	(void)ac, (void)av;
+	(void)argc, (void)argv;
 	size_t n = 10;
 	char *buf = NULL, *pieces = NULL, **ppieces = NULL;
 	ssize_t read;
@@ -61,6 +61,7 @@ main(int ac, char **av)
 			{
 				wait(&STATE);
 			}
+		free(ppieces);
 	}
 	free(buf);
 	return (0);
