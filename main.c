@@ -61,7 +61,6 @@ main(int ac, char **av)
 			{
 				wait(&STATE);
 			}
-		free(ppieces);
 	}
 	free(buf);
 	return (0);
