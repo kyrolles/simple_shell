@@ -1,68 +1,70 @@
 #include "main.h"
 
 /**
- * main - prints the environment
- * @argc: not used really.
- * @argv: also not used really.
- * Return: Always 0.
- */
+  * main - Getline function
+  * @argc: Argument count
+  * @argv: Array of argument values
+  *
+  * Return: 0 on success
+  */
 
-int
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
+        (void)argc, (void)argv;
+        char *buf = NULL, *token;
+        size_t count = 0;
+        ssize_t nread;
+        pid_t child_pid;
+        int i, status;
+        char **array;
 
-	(void)argc, (void)argv;
-	size_t n = 10;
-	char *buf = NULL, *pieces = NULL, **ppieces = NULL;
-	ssize_t read;
-	pid_t Child_process;
-	int STATE, i, Texe;
+        while (1)
+        {
+                write(STDOUT_FILENO, "MyShell$ ", 9);
 
-	while (1)
-	{
-		/*buf = malloc(sizeof(char) * n);*/
-		write(STDOUT_FILENO, "kyrl$ ", 6);
-		read = getline(&buf, &n, stdin);
+                nread = getline(&buf, &count, stdin);
 
-		if (read == -1)
-		{
-			perror("Exiting shell");
-			exit(1);
-		}
+                if (nread ==  -1)
+                {
+                        perror("Exiting shell");
+                        exit(1);
+                }
 
-		ppieces = malloc(sizeof(char *) * 1024);
+                token = strtok(buf, " \n");
 
-		pieces = strtok(buf, " \n");
-		i = 0;
-		while (pieces != NULL)
-		{
-			ppieces[i] = pieces;
-			pieces = strtok(NULL, " \n");
-			i++;
-		}
-		ppieces[i] = NULL;
-		Child_process = fork();
-		if (Child_process == -1)
-		{
-			perror("faild to make child process!\n");
-			exit(1);
-		}
-		if (Child_process == 0)
-		{
-			Texe = execve(ppieces[0], ppieces, __environ);
+                array = malloc(sizeof(char*) * 1024);
+                i = 0;
 
-			if (Texe == -1)
-			{
-				perror("faild to execute");
-				exit(1);
-			}
-		}
-		else
-			{
-				wait(&STATE);
-			}
-		free(ppieces);
-	}
-	free(buf);
-	return (0);
+                while (token)
+                {
+                        array[i] = token;
+                        token = strtok(NULL, " \n");
+                        i++;
+                }
+
+                array[i] = NULL;
+
+                child_pid = fork();
+
+                if (child_pid == -1)
+                {
+                        perror("Failed to create.");
+                        exit (41);
+                }
+
+                if (child_pid == 0)
+                {
+                        if (execve(array[0], array, NULL) == -1)
+                        {
+                                perror("Failed to execute");
+                                exit(97);
+                        }
+                }
+                else
+                {
+                        wait(&status);
+                }
+        }
+        free(buf);
+        return (0);
 }
