@@ -20,7 +20,7 @@ main(int argc, char **argv)
 
 	while (1)
 	{
-		buf = malloc(sizeof(char) * n);
+		/*buf = malloc(sizeof(char) * n);*/
 		write(STDOUT_FILENO, "kyrl$ ", 6);
 		read = getline(&buf, &n, stdin);
 
@@ -45,7 +45,7 @@ main(int argc, char **argv)
 		if (Child_process == -1)
 		{
 			perror("faild to make child process!\n");
-			exit(41);
+			exit(1);
 		}
 		if (Child_process == 0)
 		{
@@ -54,7 +54,7 @@ main(int argc, char **argv)
 			if (Texe == -1)
 			{
 				perror("faild to execute");
-				exit(97);
+				exit(1);
 			}
 		}
 		else
