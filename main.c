@@ -13,10 +13,10 @@ main(int ac, char **av)
 
 	(void)ac, (void)av;
 	size_t n = 10;
-	char *buf, *pieces, **ppieces;
+	char *buf = NULL, *pieces = NULL, **ppieces = NULL;
 	ssize_t read;
 	pid_t Child_process;
-	int STATE, i;
+	int STATE, i, Texe;
 
 	while (1)
 	{
@@ -40,6 +40,7 @@ main(int ac, char **av)
 			pieces = strtok(NULL, " \n");
 			i++;
 		}
+		ppieces[i] = NULL;
 		Child_process = fork();
 		if (Child_process == -1)
 		{
@@ -48,7 +49,7 @@ main(int ac, char **av)
 		}
 		if (Child_process == 0)
 		{
-			int Texe = execve(ppieces[0], ppieces, NULL);
+			Texe = execve(ppieces[0], ppieces, NULL);
 
 			if (Texe == -1)
 			{
