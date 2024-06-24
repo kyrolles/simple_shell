@@ -7,9 +7,10 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <errno.h>
 
-int _strlen (char *s);
-char *_strcpy (char *dest, char *src);
-int main (int ac, char **av);
+int _strlen(char *s);
+char *_strcpy(char *dest, char *src);
+int main(int ac, char **av);
 
 #endif

@@ -21,7 +21,7 @@ main(int argc, char **argv)
 	while (1)
 	{
 		buf = malloc(sizeof(char) * n);
-		write(STDOUT_FILENO, "kyrl$ ", 7);
+		write(STDOUT_FILENO, "kyrl$ ", 6);
 		read = getline(&buf, &n, stdin);
 
 		if (read == -1)
@@ -30,7 +30,7 @@ main(int argc, char **argv)
 			exit(1);
 		}
 
-		ppieces = malloc(sizeof(char) * 1024);
+		ppieces = malloc(sizeof(char *) * 1024);
 
 		pieces = strtok(buf, " \n");
 		i = 0;
@@ -49,7 +49,7 @@ main(int argc, char **argv)
 		}
 		if (Child_process == 0)
 		{
-			Texe = execve(ppieces[0], ppieces, NULL);
+			Texe = execve(ppieces[0], ppieces, __environ);
 
 			if (Texe == -1)
 			{
