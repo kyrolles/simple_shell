@@ -10,6 +10,7 @@
 char *get_file_path(char *file_name)
 {
         char *path = getenv("PATH");
+				char *Full_Path;
 
 				
 				if (startsWithForwardSlash(file_name) && access(file_name, X_OK) == 0)
@@ -22,7 +23,7 @@ char *get_file_path(char *file_name)
                 return (NULL);
         }
 
-				char *Full_Path = get_file_loc(path, file_name);
+				Full_Path = get_file_loc(path, file_name);
 
 				if(Full_Path == NULL)
 				{

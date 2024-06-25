@@ -10,14 +10,14 @@
 int
 main(int argc, char **argv)
 {
-
-	(void)argc, (void)argv;
 	size_t n = 10;
 	char *buf = NULL, *pieces = NULL, **ppieces = NULL;
 	ssize_t read;
 	pid_t Child_process;
 	int STATE, i, Texe;
 	char *path;
+
+	(void)argc, (void)argv;
 
 	while (1)
 	{
