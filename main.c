@@ -55,6 +55,8 @@ main(int argc, char **argv)
 		if (Child_process == -1)
 		{
 			perror("faild to make child process!\n");
+			free(ppieces);
+			free(buf);
 			exit(1);
 		}
 		if (Child_process == 0)
@@ -86,6 +88,5 @@ main(int argc, char **argv)
 		free(ppieces);
 	}
 	free(buf);
-	free(path);
 	return (0);
 }
