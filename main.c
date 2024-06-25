@@ -28,10 +28,17 @@ main(int argc, char **argv)
 		if (read == -1)
 		{
 			perror("Exiting shell");
+			free(buf);
 			exit(0);
 		}
 
 		ppieces = malloc(sizeof(char *) * 1024);
+		if (ppieces == NULL)
+		{
+			perror("Failed to allocate memory for ppieces");
+			free(buf);
+			exit(1);
+		}
 
 		pieces = strtok(buf, " \n");
 		i = 0;
@@ -48,20 +55,31 @@ main(int argc, char **argv)
 			perror("faild to make child process!\n");
 			exit(1);
 		}
-		path = get_file_path(ppieces[0]);
 		if (Child_process == 0)
 		{
+			path = get_file_path(ppieces[0]);
+			if (path == NULL)
+			{
+				perror("Failed to get file path");
+				free(ppieces);
+				free(buf);
+				exit(1);
+			}
 			Texe = execve(path, ppieces, __environ);
 
 			if (Texe == -1)
 			{
 				perror("faild to execute");
+				free(ppieces);
+				free(buf);
+				free(path);
 				exit(1);
 			}
 		}
 		else
 			{
 				wait(&STATE);
+				free(path);
 			}
 		free(ppieces);
 	}
