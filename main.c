@@ -22,12 +22,14 @@ main(int argc, char **argv)
 	while (1)
 	{
 		/*buf = malloc(sizeof(char) * n);*/
-		write(STDOUT_FILENO, "kyrl$ ", 6);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "kyrl$ ", 6);
+
 		read = getline(&buf, &n, stdin);
 
 		if (read == -1)
 		{
-			perror("Exiting shell");
+			/*perror("Exiting shell");*/
 			free(buf);
 			exit(0);
 		}
