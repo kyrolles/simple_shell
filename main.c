@@ -17,6 +17,7 @@ main(int argc, char **argv)
 	ssize_t read;
 	pid_t Child_process;
 	int STATE, i, Texe;
+	char *path;
 
 	while (1)
 	{
@@ -47,9 +48,10 @@ main(int argc, char **argv)
 			perror("faild to make child process!\n");
 			exit(1);
 		}
+		path = get_file_path (ppieces[0]);
 		if (Child_process == 0)
 		{
-			Texe = execve(ppieces[0], ppieces, __environ);
+			Texe = execve(path, ppieces, __environ);
 
 			if (Texe == -1)
 			{
@@ -64,5 +66,6 @@ main(int argc, char **argv)
 		free(ppieces);
 	}
 	free(buf);
+	free(path);
 	return (0);
 }
