@@ -9,9 +9,15 @@
 
 char *get_file_path(char *file_name)
 {
+
         char *path = getenv("PATH");
 				char *Full_Path;
 
+				if (file_name == NULL)
+				{
+						perror("File name is NULL");
+						return NULL;
+				}
 				
 				if (startsWithForwardSlash(file_name) && access(file_name, X_OK) == 0)
 							return (strdup(file_name));

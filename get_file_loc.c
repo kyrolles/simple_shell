@@ -15,6 +15,11 @@ char *get_file_loc(char *path, char *file_name)
         char *path_buffer = NULL;
 
         path_copy = strdup(path);
+				if (!path_copy)
+				{
+						perror("Error: strdup failed");
+						return NULL;
+				}
         token = strtok(path_copy, ":");
 
         while (token)
@@ -28,6 +33,7 @@ char *get_file_loc(char *path, char *file_name)
                 if (!path_buffer)
                 {
                         perror("Error: malloc failed");
+												free(path_copy);
                         exit(EXIT_FAILURE);
                 }
                 strcpy(path_buffer, token);

@@ -84,8 +84,10 @@ main(int argc, char **argv)
 			{
 				wait(&STATE);
 				free(path);
+				path = NULL;
 			}
 		free(ppieces);
+		ppieces = NULL;
 	}
 	free(buf);
 	return (0);
