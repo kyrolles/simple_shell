@@ -28,7 +28,7 @@ main(int argc, char **argv)
 		if (read == -1)
 		{
 			perror("Exiting shell");
-			exit(1);
+			exit(0);
 		}
 
 		ppieces = malloc(sizeof(char *) * 1024);
@@ -48,7 +48,7 @@ main(int argc, char **argv)
 			perror("faild to make child process!\n");
 			exit(1);
 		}
-		path = get_file_path (ppieces[0]);
+		path = get_file_path(ppieces[0]);
 		if (Child_process == 0)
 		{
 			Texe = execve(path, ppieces, __environ);
